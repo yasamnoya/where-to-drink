@@ -41,7 +41,7 @@
                 <li><a class="dropdown-item" :href="`${backendUrl}/users/logout`">登出</a></li>
               </ul>
             </li>
-            <router-link v-if="!user" to="/login" class="btn btn-primary">登入</router-link>
+            <router-link v-if="!user" to="/login" class="btn btn-light">登入</router-link>
           </ul>
         </div>
       </div>
@@ -64,6 +64,22 @@ export default {
 nav {
   background-color: rgba(0, 0, 0, 0.2);
 }
+
+.btn-light {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: rgba(0, 0, 0, 0.8);
+  border: none;
+}
+
+.dropdown-menu {
+  color: whitesmoke;
+  background-color: rgba(16, 0, 64, 0.8);
+}
+
+.dropdown-item {
+  color: whitesmoke;
+}
+
 #avatar {
   width: 36px;
   height: 36px;
