@@ -4,9 +4,27 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data: () => ({
+    user: null,
+  }),
+  async created() {
+    try {
+      const res = await axios.get(`${process.env.VUE_APP_BACKEND_URL}/users/me`);
+      this.user = res.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+};
+</script>
 
 <style>
 #app {
