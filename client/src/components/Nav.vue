@@ -1,6 +1,6 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-dark w-75 mx-auto">
-    <div class="container-fluid">
+  <nav class="navbar navbar-expand-md navbar-dark">
+    <div class="container-fluid w-75 mx-auto">
       <router-link class="navbar-brand" to="/">今晚哪裡喝</router-link>
       <button
         class="navbar-toggler"
@@ -61,6 +61,9 @@ export default {
 </script>
 
 <style>
+nav {
+  background-color: rgba(0, 0, 0, 0.2);
+}
 #avatar {
   width: 36px;
   height: 36px;
