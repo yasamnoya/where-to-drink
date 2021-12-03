@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/yasamnoya/where-to-drink#readme",
   "dependencies": {
+    "axios": "^0.24.0",
     "connect-mongo": "^4.6.0",
     "cors": "^2.8.5",
     "env-cmd": "^10.1.0",

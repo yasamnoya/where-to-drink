@@ -10,5 +10,6 @@ router.get('/private', hasLoggedIn, (req, res) => {
 });
 
 router.use('/users', require('./user.route'));
+router.use('/bars', require('./bars.route'));
 
 module.exports = router;

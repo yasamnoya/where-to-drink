@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Nav :user="user" />
+    <div class="w-75 mt-5"></div>
     <router-view />
   </div>
 </template>
@@ -41,6 +42,7 @@ export default {
     #1d2671,
     #ad5389
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-attachment: fixed;
   min-width: 100vw;
   min-height: 100vh;
 }
