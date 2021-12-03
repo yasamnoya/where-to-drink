@@ -31,4 +31,18 @@ router.get(
   },
 );
 
+router.get(
+  '/facebook',
+  passport.authenticate('facebook'),
+);
+
+router.get(
+  '/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: `${process.env.FRONTEND_URL}/login` }),
+  (req, res) => {
+    // Successful authentication, redirect home.
+    res.redirect(`${process.env.FRONTEND_URL}/`);
+  },
+);
+
 module.exports = router;
