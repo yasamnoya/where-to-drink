@@ -61,7 +61,14 @@
         <h1>{{ bar.name }}</h1>
         <h3> {{ bar.rating.toFixed(1) }} | {{ bar.price }}</h3>
         <h5>{{ bar.location.display_address.join('') }}</h5>
-        <drink-here :peopleGoing="bar.peopleGoing" :text="true" class="my-auto"></drink-here>
+        <div class="my-auto">
+          <drink-here
+            v-if="bar.peopleGoing.length"
+            :peopleGoing="bar.peopleGoing"
+            :text="true"
+            class="my-auto"
+          ></drink-here>
+        </div>
         <button
           v-if="user && bar.peopleGoing.map((user) => user._id).includes(user._id)"
           @click.prevent="removeGoing(bar.id)"
