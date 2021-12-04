@@ -1,6 +1,10 @@
 <template>
   <div class="card">
-    <div class="card-body d-md-flex text-start p-4">
+    <div v-if="isLoading" class="spinner-border text-light my-3 mx-auto" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+
+    <div v-if="bar" class="card-body d-md-flex text-start p-4">
       <div class="block-left">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-indicators">
@@ -72,9 +76,11 @@ export default {
     DarkBtn,
   },
   data: () => ({
-    bar: {},
+    bar: null,
+    isLoading: true,
   }),
   async created() {
+    this.isLoading = true;
     try {
       const res = await axios.get(`/bars/${this.$route.params.barId}`);
       this.bar = res.data;
@@ -83,6 +89,7 @@ export default {
     } catch (e) {
       console.log(e);
     }
+    this.isLoading = false;
   },
 };
 </script>

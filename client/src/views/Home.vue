@@ -41,6 +41,10 @@
           </div>
         </div>
       </div>
+
+      <div v-if="this.isLoading" class="spinner-border text-light my-3" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
 
     <dark-btn
@@ -70,19 +74,31 @@ export default {
   components: {
     DarkBtn,
   },
+  async created() {
+    if (localStorage.resultBasedOn) {
+      this.location = localStorage.resultBasedOn;
+      await this.getBars(localStorage.resultBasedOn);
+    }
+  },
   methods: {
+    async getBars(location) {
+      this.isLoading = true;
+      try {
+        const res = await axios.get('/bars', { params: { location } });
+        this.bars = res.data.businesses;
+        this.resultBasedOn = location;
+        localStorage.resultBasedOn = this.resultBasedOn;
+        this.barMaxCount = res.data.total;
+      } catch (e) {
+        console.log(e);
+      }
+      this.isLoading = false;
+    },
     async search() {
       if (this.location) {
-        try {
-          this.isLoading = true;
-          const res = await axios.get('/bars', { params: { location: this.location } });
-          this.bars = res.data.businesses;
-          this.resultBasedOn = this.location;
-          this.barMaxCount = res.data.total;
-        } catch (e) {
-          console.log(e);
-        }
-        this.isLoading = false;
+        this.bars = [];
+        this.barMaxCount = -1;
+        await this.getBars(this.location);
       }
     },
     async loadMoreBars() {

@@ -1,6 +1,6 @@
 <template>
   <div class="w-100 footer d-flex flex-column">
-    <p class="my-auto">Powered by Yelp Fusion | © 2021 J.N. Yiunn | Licensed by MIT</p>
+    <p class="my-auto">Powered by Yelp Fusion | © 2021 J.N. Yiunn</p>
   </div>
 </template>
 
