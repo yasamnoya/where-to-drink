@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .footer {
   height: 50px;
   background-color: rgba(0, 0, 0, 0.2);
