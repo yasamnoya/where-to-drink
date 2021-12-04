@@ -1,14 +1,17 @@
 <template>
-  <div id="app">
+  <div id="app" class="d-flex flex-column">
     <Nav :user="user" />
-    <div class="w-75 mt-5"></div>
-    <router-view />
+    <div class="w-75 mt-5 mx-auto mb-3">
+      <router-view />
+    </div>
+    <Footer class="mt-auto" />
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import Nav from './components/Nav.vue';
+import Footer from './components/Footer.vue';
 
 export default {
   data: () => ({
@@ -16,6 +19,7 @@ export default {
   }),
   components: {
     Nav,
+    Footer,
   },
   async created() {
     try {

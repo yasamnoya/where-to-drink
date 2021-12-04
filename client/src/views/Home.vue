@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto w-75">
+  <div>
     <div class="d-flex">
       <input
         v-model="location"
