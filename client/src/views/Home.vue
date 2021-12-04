@@ -16,16 +16,20 @@
       <div class="row m-auto">
         <div v-for="bar in bars" :key="bar.id" class="col-xxl-3 col-lg-4 col-md-6 col-12">
           <div class="card m-auto p-3 my-3 text-start">
-            <img
-              :src="bar.image_url"
-              @error="
-                bar.image_url =
-                  'https://image.freepik.com/free-vector/bar-interior-realistic-composition_1284-24320.jpg'
-              "
-              :alt="bar.name"
-              class="w-100"
-            />
-            <h3 class="mt-4">{{ bar.name }}</h3>
+            <router-link :to="`/bars/${bar.id}`" class="w-100 h-50">
+              <img
+                :src="bar.image_url"
+                @error="
+                  bar.image_url =
+                    'https://image.freepik.com/free-vector/bar-interior-realistic-composition_1284-24320.jpg'
+                "
+                :alt="bar.name"
+                class="w-100 h-100"
+              />
+            </router-link>
+            <router-link :to="`/bars/${bar.id}`" class="bar-title">
+              <h3 class="mt-4">{{ bar.name }}</h3>
+            </router-link>
             <div class="my-auto"></div>
             <p v-if="bar.peopleGoing">趕快揪團來這裡喝</p>
             <div class="d-flex justify-content-between">
@@ -115,12 +119,15 @@ export default {
 }
 .card img {
   object-fit: cover;
-  width: 100%;
-  height: 50%;
 }
 @media (min-width: 768px) {
   .card {
     height: 60vh;
   }
+}
+
+.bar-title {
+  color: whitesmoke;
+  text-decoration: none !important;
 }
 </style>

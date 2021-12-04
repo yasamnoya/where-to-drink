@@ -23,4 +23,21 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:barId', async (req, res) => {
+  try {
+    const result = await axios.get(`https://api.yelp.com/v3/businesses/${req.params.barId}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.YELP_TOKEN}`,
+      },
+      params: {
+        locale: 'zh_TW',
+      },
+    });
+    res.send(result.data);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
+
 module.exports = router;

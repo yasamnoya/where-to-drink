@@ -23,6 +23,11 @@ const routes = [
     name: 'Login',
     component: () => import('../views/Login.vue'),
   },
+  {
+    path: '/bars/:barId',
+    name: 'Bar',
+    component: () => import('../views/Bar.vue'),
+  },
 ];
 
 const router = new VueRouter({
