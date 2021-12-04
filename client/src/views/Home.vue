@@ -106,7 +106,6 @@ export default {
         this.resultBasedOn = location;
         localStorage.resultBasedOn = this.resultBasedOn;
         this.barMaxCount = res.data.total;
-        console.log(this.bars);
       } catch (e) {
         console.log(e);
       }
@@ -144,12 +143,16 @@ export default {
       return `${(distance / 1000).toFixed(2)} km`;
     },
     async submitGoing(barId) {
-      try {
-        await axios.post('/goings/', { barId });
-        const barGoing = this.bars.filter((bar) => bar.id === barId)[0];
-        barGoing.peopleGoing.unshift(this.user);
-      } catch (e) {
-        console.log(e);
+      if (this.user === null) {
+        this.$router.push('/login');
+      } else {
+        try {
+          await axios.post('/goings/', { barId });
+          const barGoing = this.bars.filter((bar) => bar.id === barId)[0];
+          barGoing.peopleGoing.unshift(this.user);
+        } catch (e) {
+          console.log(e);
+        }
       }
     },
     async removeGoing(barId) {
