@@ -2,7 +2,7 @@
   <div id="app" class="d-flex flex-column">
     <Nav :user="user" />
     <div class="w-75 mt-5 mx-auto mb-3">
-      <router-view />
+      <router-view :user="user" />
     </div>
     <Footer class="mt-auto" />
   </div>

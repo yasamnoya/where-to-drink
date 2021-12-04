@@ -30,14 +30,26 @@
             <router-link :to="`/bars/${bar.id}`" class="bar-title">
               <h3 class="mt-4">{{ bar.name }}</h3>
             </router-link>
-            <div class="my-auto"></div>
-            <p v-if="bar.peopleGoing">趕快揪團來這裡喝</p>
+            <div class="my-auto py-2">
+              <drink-here
+                v-if="bar.peopleGoing.length"
+                :peopleGoing="bar.peopleGoing"
+                :text="true"
+              ></drink-here>
+            </div>
             <div class="d-flex justify-content-between">
               <p> {{ bar.rating.toFixed(1) }}</p>
               <p>{{ calculateDistance(bar.distance) }}</p>
             </div>
             <div class="row"></div>
-            <dark-btn text="今晚去這喝！"></dark-btn>
+            <button
+              v-if="user && bar.peopleGoing.map((user) => user._id).includes(user._id)"
+              @click.prevent="removeGoing(bar.id)"
+              class="btn btn-dark w-100"
+            >
+              先不要好了
+            </button>
+            <dark-btn v-else @click.prevent="submitGoing(bar.id)" text="今晚去這喝！"></dark-btn>
           </div>
         </div>
       </div>
@@ -60,9 +72,13 @@
 <script>
 import axios from 'axios';
 import DarkBtn from '../components/DarkBtn.vue';
+import DrinkHere from '../components/DrinkHere.vue';
 
 export default {
   name: 'Home',
+  props: {
+    user: null,
+  },
   data: () => ({
     position: null,
     isLoading: false,
@@ -73,6 +89,7 @@ export default {
   }),
   components: {
     DarkBtn,
+    DrinkHere,
   },
   async created() {
     if (localStorage.resultBasedOn) {
@@ -89,6 +106,7 @@ export default {
         this.resultBasedOn = location;
         localStorage.resultBasedOn = this.resultBasedOn;
         this.barMaxCount = res.data.total;
+        console.log(this.bars);
       } catch (e) {
         console.log(e);
       }
@@ -124,6 +142,25 @@ export default {
     calculateDistance(distance) {
       if (distance < 1000) return `${Math.round(distance)} m`;
       return `${(distance / 1000).toFixed(2)} km`;
+    },
+    async submitGoing(barId) {
+      try {
+        await axios.post('/goings/', { barId });
+        const barGoing = this.bars.filter((bar) => bar.id === barId)[0];
+        barGoing.peopleGoing.unshift(this.user);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async removeGoing(barId) {
+      try {
+        await axios.delete(`/goings/${barId}`);
+        const barGoing = this.bars.filter((bar) => bar.id === barId)[0];
+        /* eslint no-underscore-dangle: 0 */
+        barGoing.peopleGoing = barGoing.peopleGoing.filter((user) => user._id !== this.user._id);
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
 };
