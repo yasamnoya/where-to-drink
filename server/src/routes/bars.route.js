@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:barId', async (req, res) => {
   try {
-    const result = await axios.get(`https://api.yelp.com/v3/businesses/${req.params.barId}`, {
+    const yelpRes = await axios.get(`https://api.yelp.com/v3/businesses/${req.params.barId}`, {
       headers: {
         Authorization: `Bearer ${process.env.YELP_TOKEN}`,
       },
@@ -46,7 +46,11 @@ router.get('/:barId', async (req, res) => {
         locale: 'zh_TW',
       },
     });
-    res.send(result.data);
+    const bar = yelpRes.data;
+    const goings = await Going.find({ barId: bar.id }).populate('userId');
+    const peopleGoing = goings.map((going) => going.userId);
+    bar.peopleGoing = peopleGoing;
+    res.send(bar);
   } catch (e) {
     console.log(e);
     res.sendStatus(500);

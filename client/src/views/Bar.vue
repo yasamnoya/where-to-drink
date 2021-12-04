@@ -61,7 +61,20 @@
         <h1>{{ bar.name }}</h1>
         <h3> {{ bar.rating.toFixed(1) }} | {{ bar.price }}</h3>
         <h5>{{ bar.location.display_address.join('') }}</h5>
-        <dark-btn text="今晚來這喝！" class="w-100 mt-auto" />
+        <drink-here :peopleGoing="bar.peopleGoing" :text="true" class="my-auto"></drink-here>
+        <button
+          v-if="user && bar.peopleGoing.map((user) => user._id).includes(user._id)"
+          @click.prevent="removeGoing(bar.id)"
+          class="btn btn-dark w-100"
+        >
+          先不要好了
+        </button>
+        <dark-btn
+          v-else
+          @click.prevent="submitGoing(bar.id)"
+          text="今晚去這喝！"
+          class="w-100"
+        ></dark-btn>
       </div>
     </div>
   </div>
@@ -70,10 +83,15 @@
 <script>
 import axios from 'axios';
 import DarkBtn from '../components/DarkBtn.vue';
+import DrinkHere from '../components/DrinkHere.vue';
 
 export default {
+  props: {
+    user: null,
+  },
   components: {
     DarkBtn,
+    DrinkHere,
   },
   data: () => ({
     bar: null,
@@ -85,11 +103,33 @@ export default {
       const res = await axios.get(`/bars/${this.$route.params.barId}`);
       this.bar = res.data;
       this.bar.firstPhoto = this.bar.photos.shift();
-      console.log(this.bar);
     } catch (e) {
       console.log(e);
     }
     this.isLoading = false;
+  },
+  methods: {
+    async submitGoing(barId) {
+      if (this.user === null) {
+        this.$router.push('/login');
+      } else {
+        try {
+          await axios.post('/goings/', { barId });
+          this.bar.peopleGoing.unshift(this.user);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    },
+    async removeGoing(barId) {
+      try {
+        await axios.delete(`/goings/${barId}`);
+        /* eslint no-underscore-dangle: 0 */
+        this.bar.peopleGoing = this.bar.peopleGoing.filter((user) => user._id !== this.user._id);
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
 };
 </script>
