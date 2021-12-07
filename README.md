@@ -22,7 +22,8 @@
 - [Express](https://expressjs.com/) - web framework for Node.js
 - [mongoose](https://mongoosejs.com/) - ODM for MongoDB
 - [Passport](https://www.passportjs.org/) - authentication middleware for Node.js
-- [GitHub OAuth](https://developer.github.com/v3/oauth/) - signing in with GitHub accounts
+- [Google OAuth](https://developers.google.com/identity/protocols/oauth2) - signing in with Google accounts
+- [Facebook OAuth](https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow/) - signing in with Facebook accounts
 
 ## Frontend
 
